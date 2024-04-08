@@ -43,8 +43,6 @@ class MainActivity : ComponentActivity() {
             this.setUpSkyMap(astronomicalObjects)
         }
         this.skyViewModel.astronomicalObjects.observe(this, astronomicalObjectsObserver)
-
-        this.skyViewModel.fetchData()
     }
 
     private fun setUpSkyMap(astronomicalObjects: List<AstronomicalObject>) {
