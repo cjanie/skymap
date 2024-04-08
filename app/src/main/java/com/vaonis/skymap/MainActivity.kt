@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import com.vaonis.skymap.businesslogic.AstronomicalObject
 import com.vaonis.skymap.ui.theme.SkyMapTheme
 import com.vaonis.skymap.ui.viewmodels.SkyViewModel

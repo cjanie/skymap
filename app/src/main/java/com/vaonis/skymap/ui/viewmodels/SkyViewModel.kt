@@ -1,7 +1,6 @@
 package com.vaonis.skymap.ui.viewmodels
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.vaonis.skymap.businesslogic.AstronomicalObject

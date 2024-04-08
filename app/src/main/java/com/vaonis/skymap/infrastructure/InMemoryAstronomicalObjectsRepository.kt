@@ -2,9 +2,7 @@ package com.vaonis.skymap.infrastructure
 
 import com.vaonis.skymap.businesslogic.AstronomicalObject
 import com.vaonis.skymap.businesslogic.AstronomicalObjectRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.asFlow
 import kotlinx.coroutines.flow.flowOf
 
 class InMemoryAstronomicalObjectsRepository(private val astronomicalObjects: List<AstronomicalObject>): AstronomicalObjectRepository {
