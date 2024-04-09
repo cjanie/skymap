@@ -4,6 +4,8 @@ import com.vaonis.skymap.businesslogic.AstronomicalObject
 import com.vaonis.skymap.businesslogic.AstronomicalObjectRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
@@ -12,6 +14,7 @@ import java.io.IOException
 class AstronomicalObjectRepositoryImpl: AstronomicalObjectRepository {
 
     companion object {
+        var astronomicalObjects: List<AstronomicalObject> = ArrayList()
         val thread = Thread {
             try {
                 // Your code goes here
@@ -23,7 +26,9 @@ class AstronomicalObjectRepositoryImpl: AstronomicalObjectRepository {
 
                 try {
                     val response: Response = httpClient.newCall(request).execute()
-                    println(response.body?.string())
+                    val jsonResult: String? = response.body?.string()
+                    val astronomicalObjectsDTO = Json { ignoreUnknownKeys = true }.decodeFromString<List<AstronomicalObjectDTO>>(jsonResult!!)
+                    println(astronomicalObjectsDTO.toString())
                 } catch (e: IOException) {
                     println(e)
                 }
@@ -34,6 +39,6 @@ class AstronomicalObjectRepositoryImpl: AstronomicalObjectRepository {
     }
     override fun list(): Flow<List<AstronomicalObject>> {
         thread.start()
-        return flowOf(ArrayList()) //TODO return deserialized list
+        return flowOf(astronomicalObjects)
     }
 }
