@@ -1,14 +1,15 @@
 package com.vaonis.skymap.infrastructure
 
 import kotlinx.serialization.Serializable
+import org.jetbrains.annotations.Nullable
 
 @Serializable
 data class AstronomicalObjectDTO(
     val id: String,
-    val ra: Double = -1.0,
-    val de: Double = -1.0,
+    val ra: Double? = null,
+    val de: Double? = null,
     val category: String,
-    val distance: Double = -1.0,
+    val distance: Double? = null,
     val distanceUnit: String
 )
 // Default value for 'ra', 'de' and 'distance' to avoid kotlinx.serialization.MissingFieldException: Field 'X' is required, but it was missing
