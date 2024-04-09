@@ -4,15 +4,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Observer
 import com.vaonis.skymap.businesslogic.AstronomicalObject
+import com.vaonis.skymap.businesslogic.DistanceUnit
+import com.vaonis.skymap.ui.componants.Header
+import com.vaonis.skymap.ui.draw.AstronomicalObjectInSkyCanvasComposable
 import com.vaonis.skymap.ui.theme.SkyMapTheme
 import com.vaonis.skymap.ui.viewmodels.SkyViewModel
 
@@ -31,9 +38,42 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = Color.Black
                 ) {
-                    Greeting("Android")
+                    Column() {
+                        Row(Modifier.padding(20.dp)) {
+                            Header("SkyMap")
+                        }
+
+                        Row(
+                            Modifier.padding(20.dp)) {
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
+                                modifier = Modifier.fillMaxSize()
+                            ) {
+
+                                AstronomicalObjectInSkyCanvasComposable(
+                                    AstronomicalObject("M85", 270F, 30F, "galaxy-spiral", 60000000, DistanceUnit.LIGHT_YEARS),
+                                )
+                                AstronomicalObjectInSkyCanvasComposable(
+                                    AstronomicalObject("M86", 45F, 0F, "galaxy-spiral", 60000000, DistanceUnit.LIGHT_YEARS),
+                                )
+                                AstronomicalObjectInSkyCanvasComposable(
+                                    AstronomicalObject("M87", 90F, 60F, "galaxy-spiral", 60000000, DistanceUnit.LIGHT_YEARS),
+                                )
+                                AstronomicalObjectInSkyCanvasComposable(
+                                    AstronomicalObject("M88", 135F, 80F, "galaxy-spiral", 60000000, DistanceUnit.LIGHT_YEARS),
+                                )
+
+                            }
+
+                        }
+                    }
+
+
+
+
                 }
             }
         }
@@ -55,18 +95,3 @@ fun Sky() {
     // TODO
 }
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    SkyMapTheme {
-        Greeting("Android")
-    }
-}
