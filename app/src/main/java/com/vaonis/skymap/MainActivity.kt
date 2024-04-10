@@ -58,16 +58,16 @@ class MainActivity : ComponentActivity() {
                             ) {
 
                                 AstronomicalObjectInSkyCanvasComposable(
-                                    AstronomicalObject("M85", 270F, 30F, "galaxy-spiral", 60000000, DistanceUnit.LIGHT_YEARS),
+                                    AstronomicalObject("M85", 270.0, 30.0, "galaxy-spiral", 6000000.0, DistanceUnit.LIGHT_YEARS),
                                 )
                                 AstronomicalObjectInSkyCanvasComposable(
-                                    AstronomicalObject("M86", 45F, 0F, "galaxy-spiral", 60000000, DistanceUnit.LIGHT_YEARS),
+                                    AstronomicalObject("M86", 45.0, 0.0, "galaxy-spiral", 6000000.0, DistanceUnit.LIGHT_YEARS),
                                 )
                                 AstronomicalObjectInSkyCanvasComposable(
-                                    AstronomicalObject("M87", 90F, 60F, "galaxy-spiral", 60000000, DistanceUnit.LIGHT_YEARS),
+                                    AstronomicalObject("M87", 90.0, 60.0, "galaxy-spiral", 6000000.0, DistanceUnit.LIGHT_YEARS),
                                 )
                                 AstronomicalObjectInSkyCanvasComposable(
-                                    AstronomicalObject("M88", 135F, 80F, "galaxy-spiral", 60000000, DistanceUnit.LIGHT_YEARS),
+                                    AstronomicalObject("M88", 135.0, 80.0, "galaxy-spiral", 6000000.0, DistanceUnit.LIGHT_YEARS),
                                 )
 
                             }

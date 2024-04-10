@@ -22,7 +22,7 @@ const val skyRadiusInPx = 90F
 fun AstronomicalObjectInSkyCanvasComposable(astronomicalObject: AstronomicalObject) {
 
     Canvas(
-        modifier = Modifier.fillMaxWidth().scale(5F).rotate(astronomicalObject.ra)
+        modifier = Modifier.fillMaxWidth().scale(5F).rotate(astronomicalObject.ra.toFloat())
     ) {
         //center, size
         val matrixStrokeWidthInPx = 0.25.dp.toPx()
@@ -31,7 +31,7 @@ fun AstronomicalObjectInSkyCanvasComposable(astronomicalObject: AstronomicalObje
 
         //drawMatrix(this, matrixStrokeWidthInPx)
         drawSky(this, circleStrokeWidthInPx)
-        drawAstronomicalObject(this, astronomicalObjectRadiusInPx, astronomicalObject.de)
+        drawAstronomicalObject(this, astronomicalObjectRadiusInPx, astronomicalObject.de.toFloat())
     }
 }
 private fun drawSky(drawScope: DrawScope, strokeWidthInPx: Float) {

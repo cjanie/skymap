@@ -2,8 +2,8 @@ package com.vaonis.skymap.businesslogic
 
 data class AstronomicalObject(
     val id: String,
-    val ra: Float, val de: Float,
+    val ra: Double, val de: Double,
     val category: String,
-    val distance: Long,
+    val distance: Double?,
     val distanceUnit: DistanceUnit
 )
