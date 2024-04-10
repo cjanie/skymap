@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.getValue
@@ -29,8 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Observer
 import com.vaonis.skymap.businesslogic.AstronomicalObject
 import com.vaonis.skymap.ui.componants.Header
-import com.vaonis.skymap.ui.draw.AstronomicalObjectInSkyComposable
-import com.vaonis.skymap.ui.draw.skyRadiusInPx
+import com.vaonis.skymap.ui.componants.SkyMap
+import com.vaonis.skymap.ui.componants.skyRadiusInPx
 import com.vaonis.skymap.ui.theme.SkyMapTheme
 import com.vaonis.skymap.ui.viewmodels.SkyViewModel
 
@@ -87,7 +86,13 @@ class MainActivity : ComponentActivity() {
                                         columnWidthInPx = coordinates.size.width.toFloat()
                                     }
                             ) {
-                                // Zoom and Pan https://www.youtube.com/watch?v=3CjOyoqi_PQ
+                                val skyViewSizeInPx = if (columnWidthInPx < columnHeightInPx) columnWidthInPx else columnHeightInPx
+                                val skyDiameterInPx = skyRadiusInPx * 2
+                                // Initial scale fills the available space in the column,
+                                // Depends of screen size (phone / tablet / landscape mode when turning the phone)
+                                val initialScale = skyViewSizeInPx / skyDiameterInPx
+
+                                // Zoom and Pan functionnality implementation https://www.youtube.com/watch?v=3CjOyoqi_PQ
                                 var scale by remember {
                                     mutableFloatStateOf(1F)
                                 }
@@ -113,9 +118,6 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
 
-                                    val skyViewSizeInPx = if (columnWidthInPx < columnHeightInPx) columnWidthInPx else columnHeightInPx
-                                    val skyDiameterInPx = skyRadiusInPx * 2
-                                    val initialScale = skyViewSizeInPx / skyDiameterInPx
                                     Column(
                                         modifier = Modifier
                                             .graphicsLayer {
@@ -123,26 +125,24 @@ class MainActivity : ComponentActivity() {
                                                 scaleY = initialScale
                                                 translationX = offset.x
                                                 translationY = offset.y
-
                                             }
                                             .transformable(state)
+                                        // End of zoom and pan functionality implementation
                                     ) {
-                                        for(astronomicalObject in astronomicalObjects) {
-                                            AstronomicalObjectInSkyComposable(
-                                                astronomicalObject, scale)
-                                        }
+
+                                        SkyMap(astronomicalObjects = astronomicalObjects, scale = scale)
+
                                     }
-
                                 }
-
                             }
                         }
                     }
                 }
             }
         }
-
     }
+
+
 
 }
 
