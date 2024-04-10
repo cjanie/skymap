@@ -10,10 +10,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Observer
 import com.vaonis.skymap.businesslogic.AstronomicalObject
@@ -46,6 +52,7 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         color = Color.Black
                     ) {
+
                         Column() {
                             Row(Modifier.padding(20.dp)) {
                                 Header("SkyMap")
@@ -53,13 +60,29 @@ class MainActivity : ComponentActivity() {
 
                             Row(
                                 Modifier.padding(20.dp)) {
+                                var columnHeightInPx by remember {
+                                    mutableStateOf(0f)
+                                }
+                                var columnWidthInPx by remember {
+                                    mutableStateOf(0f)
+                                }
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.Center,
-                                    modifier = Modifier.fillMaxSize()
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .onGloballyPositioned { coordinates ->
+                                            // Set column height using the LayoutCoordinates
+                                            columnHeightInPx = coordinates.size.height.toFloat()
+                                            columnWidthInPx = coordinates.size.width.toFloat()
+                                        }
                                 ) {
+                                    val viewSizeRef = if (columnWidthInPx < columnHeightInPx) columnWidthInPx else columnHeightInPx
 
-                                    setUpSkyMap(astronomicalObjects)
+
+                                    setUpSkyMap(astronomicalObjects, viewSizeRef)
+                                    println("column size = $viewSizeRef")
+
 
 
                                 }
@@ -78,10 +101,10 @@ class MainActivity : ComponentActivity() {
     }
     
     @Composable
-    private fun setUpSkyMap(astronomicalObjects: List<AstronomicalObject>) {
+    private fun setUpSkyMap(astronomicalObjects: List<AstronomicalObject>, viewSizeInPx: Float) {
         for(astronomicalObject in astronomicalObjects) {
             AstronomicalObjectInSkyCanvasComposable(
-                astronomicalObject)
+                astronomicalObject, viewSizeInPx)
         }
     }
 }

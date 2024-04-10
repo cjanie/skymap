@@ -19,10 +19,12 @@ import com.vaonis.skymap.businesslogic.AstronomicalObject
 const val skyRadiusInPx = 90F
 
 @Composable
-fun AstronomicalObjectInSkyCanvasComposable(astronomicalObject: AstronomicalObject) {
+fun AstronomicalObjectInSkyCanvasComposable(astronomicalObject: AstronomicalObject, viewSizeInPx: Float) {
+    val skyDiameterInPx = skyRadiusInPx * 2
+    val scale = viewSizeInPx / skyDiameterInPx
 
     Canvas(
-        modifier = Modifier.fillMaxWidth().scale(5F).rotate(astronomicalObject.ra.toFloat())
+        modifier = Modifier.fillMaxWidth().scale(scale).rotate(astronomicalObject.ra.toFloat())
     ) {
         //center, size
         val matrixStrokeWidthInPx = 0.1.dp.toPx()
