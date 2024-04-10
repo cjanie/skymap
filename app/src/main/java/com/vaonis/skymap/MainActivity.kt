@@ -87,21 +87,14 @@ class MainActivity : ComponentActivity() {
                                         columnWidthInPx = coordinates.size.width.toFloat()
                                     }
                             ) {
+                                // Zoom and Pan https://www.youtube.com/watch?v=3CjOyoqi_PQ
                                 var scale by remember {
                                     mutableFloatStateOf(1F)
                                 }
-
                                 var offset by remember {
                                     mutableStateOf(Offset.Zero)
                                 }
 
-                                val skyViewSizeInPx = if (columnWidthInPx < columnHeightInPx) columnWidthInPx else columnHeightInPx
-                                val skyDiameterInPx = skyRadiusInPx * 2
-                                val initialScale = skyViewSizeInPx / skyDiameterInPx
-
-
-
-                                // https://www.youtube.com/watch?v=3CjOyoqi_PQ // TODO Zoom
                                 BoxWithConstraints(
 
                                 ) {
@@ -120,6 +113,9 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
 
+                                    val skyViewSizeInPx = if (columnWidthInPx < columnHeightInPx) columnWidthInPx else columnHeightInPx
+                                    val skyDiameterInPx = skyRadiusInPx * 2
+                                    val initialScale = skyViewSizeInPx / skyDiameterInPx
                                     Column(
                                         modifier = Modifier
                                             .graphicsLayer {
