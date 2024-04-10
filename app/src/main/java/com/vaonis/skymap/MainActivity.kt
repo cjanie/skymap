@@ -11,8 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -23,15 +23,10 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Observer
 import com.vaonis.skymap.businesslogic.AstronomicalObject
-import com.vaonis.skymap.businesslogic.DistanceUnit
 import com.vaonis.skymap.ui.componants.Header
-import com.vaonis.skymap.ui.draw.AstronomicalObjectInSkyCanvasComposable
+import com.vaonis.skymap.ui.draw.AstronomicalObjectInSkyComposable
 import com.vaonis.skymap.ui.theme.SkyMapTheme
 import com.vaonis.skymap.ui.viewmodels.SkyViewModel
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.Response
-import java.io.IOException
 
 class MainActivity : ComponentActivity() {
 
@@ -42,75 +37,64 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setContent {
+            SkyMapTheme {
 
-        val astronomicalObjectsObserver: Observer<List<AstronomicalObject>> = Observer { astronomicalObjects ->
-            // View
-            setContent {
-                SkyMapTheme {
-                    // A surface container using the 'background' color from the theme
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = Color.Black
-                    ) {
+                // Data
+                var astronomicalObjects: List<AstronomicalObject> by remember {
+                    mutableStateOf(ArrayList())
+                }
+                val astronomicalObjectsObserver: Observer<List<AstronomicalObject>> = Observer { objects ->
+                    astronomicalObjects = objects
+                }
+                this.skyViewModel.astronomicalObjects.observe(this, astronomicalObjectsObserver)
 
-                        Column() {
-                            Row(Modifier.padding(20.dp)) {
-                                Header("SkyMap")
+                // View
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = Color.Black,
+                    contentColor = Color.White
+
+                ) {
+
+                    Column() {
+                        Row(Modifier.padding(20.dp)) {
+                            Header("SkyMap")
+                        }
+
+                        Row(
+                            Modifier.padding(20.dp)) {
+                            var columnHeightInPx by remember {
+                                mutableFloatStateOf(0f)
                             }
+                            var columnWidthInPx by remember {
+                                mutableStateOf(0f)
+                            }
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .onGloballyPositioned { coordinates ->
+                                        // Set column height using the LayoutCoordinates
+                                        columnHeightInPx = coordinates.size.height.toFloat()
+                                        columnWidthInPx = coordinates.size.width.toFloat()
+                                    }
+                            ) {
+                                val skyViewSizeInPx = if (columnWidthInPx < columnHeightInPx) columnWidthInPx else columnHeightInPx
 
-                            Row(
-                                Modifier.padding(20.dp)) {
-                                var columnHeightInPx by remember {
-                                    mutableStateOf(0f)
+                                for(astronomicalObject in astronomicalObjects) {
+                                    AstronomicalObjectInSkyComposable(
+                                        astronomicalObject, skyViewSizeInPx)
                                 }
-                                var columnWidthInPx by remember {
-                                    mutableStateOf(0f)
-                                }
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center,
-                                    modifier = Modifier
-                                        .fillMaxSize()
-                                        .onGloballyPositioned { coordinates ->
-                                            // Set column height using the LayoutCoordinates
-                                            columnHeightInPx = coordinates.size.height.toFloat()
-                                            columnWidthInPx = coordinates.size.width.toFloat()
-                                        }
-                                ) {
-                                    val viewSizeRef = if (columnWidthInPx < columnHeightInPx) columnWidthInPx else columnHeightInPx
-
-
-                                    setUpSkyMap(astronomicalObjects, viewSizeRef)
-                                    println("column size = $viewSizeRef")
-
-
-
-                                }
-
                             }
                         }
                     }
                 }
             }
-
-
-            println(astronomicalObjects.size)
         }
-        this.skyViewModel.astronomicalObjects.observe(this, astronomicalObjectsObserver)
 
     }
-    
-    @Composable
-    private fun setUpSkyMap(astronomicalObjects: List<AstronomicalObject>, viewSizeInPx: Float) {
-        for(astronomicalObject in astronomicalObjects) {
-            AstronomicalObjectInSkyCanvasComposable(
-                astronomicalObject, viewSizeInPx)
-        }
-    }
-}
 
-@Composable
-fun Sky() {
-    // TODO
 }
 
