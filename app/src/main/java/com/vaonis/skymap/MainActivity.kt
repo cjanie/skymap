@@ -36,57 +36,53 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // View
-        setContent {
-            SkyMapTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = Color.Black
-                ) {
-                    Column() {
-                        Row(Modifier.padding(20.dp)) {
-                            Header("SkyMap")
-                        }
 
-                        Row(
-                            Modifier.padding(20.dp)) {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center,
-                                modifier = Modifier.fillMaxSize()
-                            ) {
-
-                                AstronomicalObjectInSkyCanvasComposable(
-                                    AstronomicalObject("M85", 270.0, 30.0, "galaxy-spiral", 6000000.0, DistanceUnit.LIGHT_YEARS),
-                                )
-                                AstronomicalObjectInSkyCanvasComposable(
-                                    AstronomicalObject("M86", 45.0, 0.0, "galaxy-spiral", 6000000.0, DistanceUnit.LIGHT_YEARS),
-                                )
-                                AstronomicalObjectInSkyCanvasComposable(
-                                    AstronomicalObject("M87", 90.0, 60.0, "galaxy-spiral", 6000000.0, DistanceUnit.LIGHT_YEARS),
-                                )
-                                AstronomicalObjectInSkyCanvasComposable(
-                                    AstronomicalObject("M88", 135.0, 80.0, "galaxy-spiral", 6000000.0, DistanceUnit.LIGHT_YEARS),
-                                )
-
+        val astronomicalObjectsObserver: Observer<List<AstronomicalObject>> = Observer { astronomicalObjects ->
+            // View
+            setContent {
+                SkyMapTheme {
+                    // A surface container using the 'background' color from the theme
+                    Surface(
+                        modifier = Modifier.fillMaxSize(),
+                        color = Color.Black
+                    ) {
+                        Column() {
+                            Row(Modifier.padding(20.dp)) {
+                                Header("SkyMap")
                             }
 
+                            Row(
+                                Modifier.padding(20.dp)) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center,
+                                    modifier = Modifier.fillMaxSize()
+                                ) {
+
+                                    setUpSkyMap(astronomicalObjects)
+
+
+                                }
+
+                            }
                         }
                     }
                 }
             }
-        }
 
-        val astronomicalObjectsObserver: Observer<List<AstronomicalObject>> = Observer { astronomicalObjects ->
-            this.setUpSkyMap(astronomicalObjects)
+
+            println(astronomicalObjects.size)
         }
         this.skyViewModel.astronomicalObjects.observe(this, astronomicalObjectsObserver)
-    }
 
+    }
+    
+    @Composable
     private fun setUpSkyMap(astronomicalObjects: List<AstronomicalObject>) {
-        // TODO
-        println(astronomicalObjects.size)
+        for(astronomicalObject in astronomicalObjects) {
+            AstronomicalObjectInSkyCanvasComposable(
+                astronomicalObject)
+        }
     }
 }
 

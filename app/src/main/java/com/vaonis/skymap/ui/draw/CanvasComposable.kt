@@ -25,9 +25,9 @@ fun AstronomicalObjectInSkyCanvasComposable(astronomicalObject: AstronomicalObje
         modifier = Modifier.fillMaxWidth().scale(5F).rotate(astronomicalObject.ra.toFloat())
     ) {
         //center, size
-        val matrixStrokeWidthInPx = 0.25.dp.toPx()
-        val circleStrokeWidthInPx = 0.5.dp.toPx()
-        val astronomicalObjectRadiusInPx = 2.dp.toPx()
+        val matrixStrokeWidthInPx = 0.1.dp.toPx()
+        val circleStrokeWidthInPx = 0.25.dp.toPx()
+        val astronomicalObjectRadiusInPx = 0.5.dp.toPx()
 
         //drawMatrix(this, matrixStrokeWidthInPx)
         drawSky(this, circleStrokeWidthInPx)
