@@ -1,8 +1,13 @@
 package com.vaonis.skymap.ui.draw
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.scale
@@ -19,12 +24,14 @@ import com.vaonis.skymap.businesslogic.AstronomicalObject
 const val skyRadiusInPx = 90F
 
 @Composable
-fun AstronomicalObjectInSkyComposable(astronomicalObject: AstronomicalObject, viewSizeInPx: Float) {
-    val skyDiameterInPx = skyRadiusInPx * 2
-    val scale = viewSizeInPx / skyDiameterInPx
+fun AstronomicalObjectInSkyComposable(astronomicalObject: AstronomicalObject, scale: Float) {
+
 
     Canvas(
-        modifier = Modifier.fillMaxWidth().scale(scale).rotate(astronomicalObject.ra.toFloat())
+        modifier = Modifier
+            .fillMaxWidth()
+            .scale(scale)
+            .rotate(astronomicalObject.ra.toFloat())
     ) {
         //center, size
         val matrixStrokeWidthInPx = 0.1.dp.toPx()

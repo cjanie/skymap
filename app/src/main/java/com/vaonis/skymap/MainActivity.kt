@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,6 +26,7 @@ import androidx.lifecycle.Observer
 import com.vaonis.skymap.businesslogic.AstronomicalObject
 import com.vaonis.skymap.ui.componants.Header
 import com.vaonis.skymap.ui.draw.AstronomicalObjectInSkyComposable
+import com.vaonis.skymap.ui.draw.skyRadiusInPx
 import com.vaonis.skymap.ui.theme.SkyMapTheme
 import com.vaonis.skymap.ui.viewmodels.SkyViewModel
 
@@ -82,10 +84,12 @@ class MainActivity : ComponentActivity() {
                                     }
                             ) {
                                 val skyViewSizeInPx = if (columnWidthInPx < columnHeightInPx) columnWidthInPx else columnHeightInPx
-
+                                val skyDiameterInPx = skyRadiusInPx * 2
+                                val scale = skyViewSizeInPx / skyDiameterInPx
+                                // https://www.youtube.com/watch?v=3CjOyoqi_PQ // TODO Zoom
                                 for(astronomicalObject in astronomicalObjects) {
                                     AstronomicalObjectInSkyComposable(
-                                        astronomicalObject, skyViewSizeInPx)
+                                        astronomicalObject, scale)
                                 }
                             }
                         }

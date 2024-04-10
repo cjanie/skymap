@@ -10,9 +10,14 @@ import com.vaonis.skymap.ui.viewmodels.SkyViewModelFactory
 
 class Launch: Application() {
 
+    // For test
+    val astronomicalObjetcs = listOf(
+        AstronomicalObject("Regulus", 152.0914, 11.9675, "star-multiple-star", 79.0, DistanceUnit.LIGHT_YEARS)
+    )
     // Dependencies injection
     private val astronomicalObjectRepository by lazy {
         AstronomicalObjectRepositoryImpl()
+        //InMemoryAstronomicalObjectsRepository(astronomicalObjetcs)
     }
 
     private val getSkyMapObjectsUseCase by lazy {
